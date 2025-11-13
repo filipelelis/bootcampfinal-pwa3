@@ -23,11 +23,10 @@ jobs:
         uses: actions/configure-pages@v5
 
       - name: 3. Fazer upload do artefato (a pasta do PWA)
+        # Publica apenas o conteúdo da pasta 'apps/web'
         uses: actions/upload-pages-artifact@v3
         with:
-          # Diz ao GitHub Pages para procurar o site nesta pasta
           path: ./apps/web
 
       - name: 4. Publicar no GitHub Pages
         uses: actions/deploy-pages@v4
-        # 'artifact_name' é automático, não precisa definir

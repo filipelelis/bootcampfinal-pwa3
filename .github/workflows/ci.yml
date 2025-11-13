@@ -10,7 +10,8 @@ jobs:
       - name: 1. Baixar o código
         uses: actions/checkout@v4
 
-      - name: 2. Instalar Playwright
+      - name: 2. Instalar Playwright (na raiz)
+        # Este 'npm ci' lê o /package.json da raiz
         run: npm ci
 
       - name: 3. Subir a aplicação (PWA + API) em background
@@ -22,6 +23,9 @@ jobs:
           sleep 10
       
       - name: 5. Rodar os Testes E2E do Playwright
+        env:
+          # Define a variável de ambiente que o teste espera
+          E2E_URL: http://localhost:8080
         run: npx playwright test --reporter=list,html
 
       - name: 6. Parar os containers (mesmo se o teste falhar)
