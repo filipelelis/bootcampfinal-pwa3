@@ -1,0 +1,13 @@
+services:
+  # 1. O serviço da API (Backend)
+  api:
+    build: ./apps/api        # Constrói a imagem usando o Dockerfile em apps/api
+    ports: ["3000:3000"]   # Expõe a porta 3000 do container na porta 3000 da sua máquina
+    container_name: saudacao-api
+    
+  # 2. O serviço do PWA (Frontend)
+  web:
+    build: ./apps/web        # Constrói a imagem usando o Dockerfile em apps/web
+    ports: ["8080:80"]     # Expõe a porta 80 (Nginx) do container na porta 8080 da sua máquina
+    container_name: saudacao-web
+    depends_on: [api]      # Diz ao Docker para esperar a 'api' ficar pronta antes de subir o 'web'

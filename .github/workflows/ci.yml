@@ -1,0 +1,36 @@
+name: CI - Testes E2E (Docker)
+
+on: [push, pull_request]
+
+jobs:
+  test-e2e:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: 1. Baixar o código
+        uses: actions/checkout@v4
+
+      - name: 2. Instalar Playwright
+        run: npm ci
+
+      - name: 3. Subir a aplicação (PWA + API) em background
+        run: docker-compose up --build -d
+      
+      - name: 4. Esperar os serviços aquecerem
+        run: |
+          echo "Aguardando 10s para os containers subirem..."
+          sleep 10
+      
+      - name: 5. Rodar os Testes E2E do Playwright
+        run: npx playwright test --reporter=list,html
+
+      - name: 6. Parar os containers (mesmo se o teste falhar)
+        if: always()
+        run: docker-compose down
+        
+      - name: 7. Fazer upload do Relatório de Testes
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playwright-report
+          path: playwright-report/
