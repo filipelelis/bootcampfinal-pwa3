@@ -8,7 +8,8 @@ services:
       driver: "json-file"
     # Health Check: Testa se a API está a responder
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:3000/api/saudacao"]
+      # MUDANÇA AQUI: Trocámos a lista por uma string única
+      test: "curl -f http://localhost:3000/api/saudacao"
       interval: 10s
       timeout: 5s
       retries: 5
