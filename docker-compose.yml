@@ -4,14 +4,23 @@ services:
     build: ./apps/api
     ports: ["3000:3000"]
     container_name: saudacao-api
-    logging: # <-- MANTÉM ISTO
-      driver: "json-file" # <-- MUDE "none" PARA "json-file"
+    logging:
+      driver: "json-file"
+    # Health Check: Testa se a API está a responder
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/api/saudacao"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   # 2. O serviço do PWA (Frontend)
   web:
     build: ./apps/web
     ports: ["8080:80"]
     container_name: saudacao-web
-    depends_on: [api]
-    logging: # <-- MANTÉM ISTO
-      driver: "json-file" # <-- MUDE "none" PARA "json-file"
+    logging:
+      driver: "json-file"
+    # Agora o 'web' SÓ liga depois do 'api' estar "healthy"
+    depends_on:
+      api:
+        condition: service_healthy
