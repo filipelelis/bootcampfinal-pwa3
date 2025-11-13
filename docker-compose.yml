@@ -4,8 +4,8 @@ services:
     build: ./apps/api
     ports: ["3000:3000"]
     container_name: saudacao-api
-    logging: # <-- ADICIONE ESTA LINHA
-      driver: "none" # <-- E ESTA LINHA
+    logging: # <-- MANTÉM ISTO
+      driver: "json-file" # <-- MUDE "none" PARA "json-file"
 
   # 2. O serviço do PWA (Frontend)
   web:
@@ -13,7 +13,5 @@ services:
     ports: ["8080:80"]
     container_name: saudacao-web
     depends_on: [api]
-    logging: # <-- ADICIONE ESTA LINHA
-      driver: "none" # <-- E ESTA LINHA
-    container_name: saudacao-web
-    depends_on: [api]      # Diz ao Docker para esperar a 'api' ficar pronta antes de subir o 'web'
+    logging: # <-- MANTÉM ISTO
+      driver: "json-file" # <-- MUDE "none" PARA "json-file"
