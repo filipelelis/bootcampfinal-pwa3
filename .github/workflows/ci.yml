@@ -17,10 +17,15 @@ jobs:
       - name: 3. Subir a aplicação (PWA + API) em background
         run: docker compose up --build -d
       
-      - name: 4. Esperar os serviços aquecerem
+      - name: 4. Esperar a API ficar "healthy"
         run: |
-          echo "Aguardando 10s para os containers subirem..."
-          sleep 10
+          echo "Aguardando a API (saudacao-api) ficar 'healthy'..."
+          timeout 60s bash -c ' \
+          until docker inspect --format="{{json .State.Health.Status}}" saudacao-api | grep -q "healthy"; do \
+          echo "Aguardando... (Status: $(docker inspect --format="{{json .State.Health.Status}}" saudacao-api))"; \
+          sleep 2; \
+          done'
+          echo "API está 'healthy'! A iniciar os testes..."
       
       - name: 5. Rodar os Testes E2E do Playwright
         env:
