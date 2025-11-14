@@ -1,25 +1,23 @@
+# FORÇANDO UMA MUDANÇA PARA O GIT
+
 services:
   # 1. O serviço da API (Backend)
   api:
     build: ./apps/api
     ports: ["3000:3000"]
     container_name: saudacao-api
-    logging:
-      driver: "json-file"
     # Health Check: Testa se a API está a responder
-  healthcheck:
-    test: "curl -f http://localhost:3000/api/saudacao"
-    interval: 10s
-    timeout: 5s
-    retries: 5
+    healthcheck:
+      test: "curl -f http://localhost:3000/api/saudacao"
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   # 2. O serviço do PWA (Frontend)
   web:
     build: ./apps/web
     ports: ["8080:80"]
     container_name: saudacao-web
-    logging:
-      driver: "json-file"
     # Agora o 'web' SÓ liga depois do 'api' estar "healthy"
     depends_on:
       api:
