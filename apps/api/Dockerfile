@@ -1,6 +1,7 @@
-FROM node:20-alpine
-# Adiciona o 'curl' para o health check
-RUN apk add --no-cache curl
+# 1. Mude "alpine" para a imagem padrão e estável
+FROM node:20
+
+# 2. Apague a linha "RUN apk add... curl", porque o curl já existe
 
 WORKDIR /app
 
