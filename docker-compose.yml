@@ -7,12 +7,11 @@ services:
     logging:
       driver: "json-file"
     # Health Check: Testa se a API está a responder
-    healthcheck:
-      # MUDANÇA AQUI: Trocámos a lista por uma string única
-      test: "curl -f http://localhost:3000/api/saudacao"
-      interval: 10s
-      timeout: 5s
-      retries: 5
+  healthcheck:
+    test: "curl -f http://localhost:3000/api/saudacao"
+    interval: 10s
+    timeout: 5s
+    retries: 5
 
   # 2. O serviço do PWA (Frontend)
   web:
