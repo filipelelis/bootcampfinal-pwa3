@@ -1,14 +1,16 @@
+# deploy.yml (o ficheiro correto)
+
 name: CD - Publicar PWA no GitHub Pages
 
 on:
   push:
     branches:
-      - main  # Ou 'master', dependendo do seu repositório
+      - main
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    
+
     # Permissões para o GitHub Actions poder publicar no Pages
     permissions:
       contents: read
