@@ -5,49 +5,47 @@ on: [push, pull_request]
 jobs:
   test-e2e:
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: 1. Baixar o código
         uses: actions/checkout@v4
 
       - name: 2. Instalar Playwright (na raiz)
-        # Este 'npm ci' lê o /package.json da raiz
         run: npm ci
 
       - name: 3. Subir a aplicação (PWA + API) em background
         run: docker compose up --build -d
-      
+
       - name: 4. Esperar a API ficar "healthy"
         run: |
-         echo "Aguardando a API (saudacao-api) ficar 'healthy'..."
+          echo "Aguardando a API (saudacao-api) ficar 'healthy'..."
           count=0
           while [ $count -lt 30 ]; do # Tentar por no máximo 30 vezes (60 segundos)
-          STATUS=$(docker inspect --format='{{json .State.Health.Status}}' saudacao-api 2>/dev/null)
-          if [ "$STATUS" = '"healthy"' ]; then
-              echo "API está 'healthy'!"
-              break
-          fi
-          echo "Aguardando... (Status: $STATUS). Tentativa $count/30"
-          sleep 2
-          count=$((count + 1))
+              STATUS=$(docker inspect --format='{{json .State.Health.Status}}' saudacao-api 2>/dev/null)
+              if [ "$STATUS" = '"healthy"' ]; then
+                  echo "API está 'healthy'!"
+                  break
+              fi
+              echo "Aguardando... (Status: $STATUS). Tentativa $count/30"
+              sleep 2
+              count=$((count + 1))
           done
 
           if [ $count -ge 30 ]; then
-          echo "Erro: A API não ficou healthy a tempo!"
-          exit 1
+              echo "Erro: A API não ficou healthy a tempo!"
+              exit 1
           fi
           echo "API está 'healthy'! A iniciar os testes..."
-      
+
       - name: 5. Rodar os Testes E2E do Playwright
         env:
-          # Define a variável de ambiente que o teste espera
           E2E_URL: http://localhost:8080
         run: npx playwright test --reporter=list,html
 
       - name: 6. Parar os containers (mesmo se o teste falhar)
         if: always()
         run: docker compose down
-        
+
       - name: 7. Fazer upload do Relatório de Testes
         uses: actions/upload-artifact@v4
         if: always()

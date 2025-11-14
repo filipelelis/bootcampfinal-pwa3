@@ -1,4 +1,3 @@
-cat << 'EOF' > .github/workflows/deploy.yml
 name: CD - Publicar PWA no GitHub Pages
 
 on:
@@ -9,7 +8,7 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    
+
     permissions:
       contents: read
       pages: write
@@ -29,4 +28,3 @@ jobs:
 
       - name: 4. Publicar no GitHub Pages
         uses: actions/deploy-pages@v4
-EOF
