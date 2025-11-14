@@ -1,4 +1,3 @@
-cat << 'EOF' > docker-compose.yml
 services:
   # 1. O serviço da API (Backend)
   api:
@@ -21,4 +20,3 @@ services:
     depends_on:
       api:
         condition: service_healthy
-EOF
