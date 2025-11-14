@@ -1,5 +1,4 @@
-# deploy.yml (o ficheiro correto)
-
+cat << 'EOF' > .github/workflows/deploy.yml
 name: CD - Publicar PWA no GitHub Pages
 
 on:
@@ -10,8 +9,7 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
-    # Permissões para o GitHub Actions poder publicar no Pages
+    
     permissions:
       contents: read
       pages: write
@@ -25,10 +23,10 @@ jobs:
         uses: actions/configure-pages@v5
 
       - name: 3. Fazer upload do artefato (a pasta do PWA)
-        # Publica apenas o conteúdo da pasta 'apps/web'
         uses: actions/upload-pages-artifact@v3
         with:
           path: ./apps/web
 
       - name: 4. Publicar no GitHub Pages
         uses: actions/deploy-pages@v4
+EOF
