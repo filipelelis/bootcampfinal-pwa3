@@ -13,10 +13,13 @@ jobs:
       - name: 2. Instalar Playwright (na raiz)
         run: npm ci
 
-      - name: 3. Subir a aplicação (PWA + API) em background
+      - name: 3. Instalar Navegadores (Chromium) - NOVO PASSO!
+        run: npx playwright install chromium
+
+      - name: 4. Subir a aplicação (PWA + API) em background
         run: docker compose up --build -d
 
-      - name: 4. Esperar a API ficar "healthy"
+      - name: 5. Esperar a API ficar "healthy"
         run: |
           echo "Aguardando a API (saudacao-api) ficar 'healthy'..."
           count=0
@@ -37,16 +40,16 @@ jobs:
           fi
           echo "API está 'healthy'! A iniciar os testes..."
 
-      - name: 5. Rodar os Testes E2E do Playwright
+      - name: 6. Rodar os Testes E2E do Playwright
         env:
           E2E_URL: http://localhost:8080
         run: npx playwright test --reporter=list,html
 
-      - name: 6. Parar os containers (mesmo se o teste falhar)
+      - name: 7. Parar os containers (mesmo se o teste falhar)
         if: always()
         run: docker compose down
 
-      - name: 7. Fazer upload do Relatório de Testes
+      - name: 8. Fazer upload do Relatório de Testes
         uses: actions/upload-artifact@v4
         if: always()
         with:
