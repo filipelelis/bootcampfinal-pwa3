@@ -17,3 +17,7 @@ O objetivo principal desta aplicação é consumir um serviço de API simples pa
 * **Containerização:** Docker e Docker Compose.
 * **Testes:** Playwright.
 * **Deploy:** GitHub Actions (CI/CD) para o GitHub Pages.
+
+Link para vídeo mostrando fluxo
+https://github.com/user-attachments/assets/554835d0-04c6-4d99-a2ce-34643656824f
+
