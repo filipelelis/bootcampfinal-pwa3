@@ -21,3 +21,7 @@ O objetivo principal desta aplicação é consumir um serviço de API simples pa
 Link para vídeo mostrando fluxo
 https://github.com/user-attachments/assets/554835d0-04c6-4d99-a2ce-34643656824f
 
+integrantes do grupo
+Filipe soares lelis
+João Gabriel Chaves de Almeida
+
